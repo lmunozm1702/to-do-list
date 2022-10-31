@@ -1,15 +1,40 @@
 import _ from 'lodash';
 import './style.css';
+import sampleData from './sampleData.js';
 
-function component() {
-  const element = document.createElement('div');
-
-  // Lodash, now imported by this script
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-  element.classList.add('hello');
-
-
-  return element;
+class toDoItem {
+  constructor(description = null, completed = false, index = -1) {
+    this.description = description;
+    this.completed = completed;
+    this.index = index;
+  }
 }
 
-document.body.appendChild(component());
+class toDoList {
+  constructor(taskList = [], index = 0, listName = '') {
+    this.taskList = taskList;
+    this.index = index;
+    this.listName = listName;
+  }
+
+  renderTaskList = (titleDiv, parentDiv) => {
+    titleDiv.textContent = this.listName;
+
+    let orderedList = this.taskList.sort((a, b) => {
+      return a.index - b.index;
+    });
+
+    orderedList.forEach(listItem => {
+      let taskToAdd = document.createElement('li');
+      taskToAdd.className = 'single-task';
+      taskToAdd.textContent = listItem.description;
+      parentDiv.appendChild(taskToAdd);
+    });
+  }
+
+
+}
+
+let myList = new toDoList(sampleData, 3, "My first list");
+myList.renderTaskList(document.querySelector('#list-title-left'), document.querySelector('#to-do-list'));
+
