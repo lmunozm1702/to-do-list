@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import ToDoItem from './todoitem.js';
 import './style.css';
 import sampleData from './sampleData.js';
 import '@fortawesome/fontawesome-free/js/fontawesome';
@@ -6,15 +6,7 @@ import '@fortawesome/fontawesome-free/js/solid';
 import '@fortawesome/fontawesome-free/js/regular';
 import '@fortawesome/fontawesome-free/js/brands';
 
-class toDoItem {
-  constructor(description = null, completed = false, index = -1) {
-    this.description = description;
-    this.completed = completed;
-    this.index = index;
-  }
-}
-
-class toDoList {
+class ToDoList {
   constructor(taskList = [], index = 0, listName = '') {
     this.taskList = taskList;
     this.index = index;
@@ -24,17 +16,15 @@ class toDoList {
   renderTaskList = (titleDiv, parentDiv) => {
     titleDiv.textContent = this.listName;
 
-    let orderedList = this.taskList.sort((a, b) => {
-      return a.index - b.index;
-    });
+    const orderedList = this.taskList.sort((a, b) => a.index - b.index);
 
-    orderedList.forEach(listItem => {
+    orderedList.forEach((listItem) => {
       this.renderTask(parentDiv, listItem);
     });
   }
 
   renderTask = (parentDiv, task) => {
-    let taskToAdd = document.createElement('li');
+    const taskToAdd = document.createElement('li');
     taskToAdd.className = 'single-task no-edition';
     taskToAdd.id = `li-task-${task.index}`;
     taskToAdd.onclick = () => {
@@ -42,10 +32,10 @@ class toDoList {
       taskToAdd.classList.replace('no-edition', 'edition');
       document.querySelector(`#vertical-${task.index}`).classList.replace('visible', 'hidden');
       document.querySelector(`#trash-${task.index}`).classList.replace('hidden', 'visible');
-    }
+    };
     parentDiv.appendChild(taskToAdd);
 
-    let taskDivLeft = document.createElement('div');
+    const taskDivLeft = document.createElement('div');
     taskDivLeft.id = `left-div-li-${task.index}`;
     taskDivLeft.className = 'left-div-li';
     taskToAdd.appendChild(taskDivLeft);
@@ -53,24 +43,37 @@ class toDoList {
     let taskIcon = document.createElement('i');
     taskIcon.id = `square-${task.index}`;
     taskIcon.className = 'fa-regular fa-square grey-icon';
-    task.completed ? taskIcon.classList.add('hidden') : taskIcon.classList.add('visible');
+    if (task.completed) {
+      taskIcon.classList.add('hidden');
+    } else {
+      taskIcon.classList.add('visible');
+    }
     taskDivLeft.appendChild(taskIcon);
 
     taskIcon = document.createElement('i');
     taskIcon.id = `check-${task.index}`;
     taskIcon.className = 'fa-solid fa-check green-icon';
-    task.completed ? taskIcon.classList.add('visible') : taskIcon.classList.add('hidden');
+
+    if (task.completed) {
+      taskIcon.classList.add('visible');
+    } else {
+      taskIcon.classList.add('hidden');
+    }
     taskDivLeft.appendChild(taskIcon);
 
-    let taskDesc = document.createElement('input');
+    const taskDesc = document.createElement('input');
     taskDesc.type = 'text';
     taskDesc.className = 'li-input-text';
-    task.completed ? taskDesc.classList.add('text-completed') : taskIcon.classList.add('text-uncompleted');
+    if (task.completed) {
+      taskDesc.classList.add('text-completed');
+    } else {
+      taskIcon.classList.add('text-uncompleted');
+    }
     taskDesc.id = `li-input-text-${task.index}`;
     taskDesc.value = task.description;
     taskDivLeft.appendChild(taskDesc);
 
-    let taskDivRight = document.createElement('div');
+    const taskDivRight = document.createElement('div');
     taskDivRight.id = `right-div-li-${task.index}`;
     taskToAdd.appendChild(taskDivRight);
 
@@ -94,7 +97,7 @@ class toDoList {
   }
 
   setNoeditBackground = () => {
-    this.taskList.forEach(listItem => {
+    this.taskList.forEach((listItem) => {
       document.querySelector(`#li-task-${listItem.index}`).classList.replace('edition', 'no-edition');
       document.querySelector(`#vertical-${listItem.index}`).classList.replace('hidden', 'visible');
       document.querySelector(`#trash-${listItem.index}`).classList.replace('visible', 'hidden');
@@ -102,18 +105,17 @@ class toDoList {
   }
 }
 
-let myList = new toDoList(sampleData, 3, "My first list");
+const myList = new ToDoList(sampleData, 3, 'My first list');
 myList.renderTaskList(document.querySelector('#list-title-left'), document.querySelector('#to-do-list'));
 
-const newItemInput = document.querySelector("#new-item-input");
+const newItemInput = document.querySelector('#new-item-input');
 newItemInput.addEventListener('change', () => {
-  let newTask = new toDoItem(newItemInput.value, false, myList.index);
+  const newTask = new ToDoItem(newItemInput.value, false, myList.index);
   myList.index += 1;
   myList.addNewTask(document.querySelector('#to-do-list'), newTask);
   newItemInput.value = '';
-})
+});
 
 newItemInput.addEventListener('click', () => {
   myList.setNoeditBackground();
 });
-
