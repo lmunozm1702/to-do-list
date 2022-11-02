@@ -7,6 +7,7 @@ body {
   font-family: 'Open Sans', 'Lucida Grande', tahoma, verdana, arial, sans-serif;
   background: #f1f2f5;
   box-sizing: border-box;
+  max-width: 490px;
 }
 
 ul {
