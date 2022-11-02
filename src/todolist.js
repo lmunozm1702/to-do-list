@@ -7,12 +7,13 @@ class ToDoList {
 
   renderTaskList = (titleDiv, parentDiv) => {
     titleDiv.textContent = this.listName;
-
     const orderedList = this.taskList.sort((a, b) => a.index - b.index);
-
+    let badgeCount = 0;
     orderedList.forEach((listItem) => {
       this.renderTask(parentDiv, listItem);
+      if (listItem.completed === false) { badgeCount += 1; }
     });
+    this.updateBadge(badgeCount);
   }
 
   renderTask = (parentDiv, task) => {
@@ -32,26 +33,49 @@ class ToDoList {
     taskDivLeft.className = 'left-div-li';
     taskToAdd.appendChild(taskDivLeft);
 
+    const divSquare = document.createElement('div');
+    divSquare.id = `div-square-${task.index}`;
+    if (task.completed) {
+      divSquare.className = 'hidden';
+    } else {
+      divSquare.className = 'visible';
+    }
+    divSquare.onclick = () => {
+      divSquare.className = 'hidden';
+      document.querySelector(`#div-check-${task.index}`).className = 'visible';
+      document.querySelector(`#li-input-text-${task.index}`).classList.replace('text-uncompleted', 'text-completed');
+      this.taskList[task.index].completed = true;
+      this.updateBadge('-');
+      this.setLocalStorage();
+    };
+    taskDivLeft.appendChild(divSquare);
+
     let taskIcon = document.createElement('i');
     taskIcon.id = `square-${task.index}`;
     taskIcon.className = 'fa-regular fa-square grey-icon';
-    if (task.completed) {
-      taskIcon.classList.add('hidden');
-    } else {
-      taskIcon.classList.add('visible');
-    }
-    taskDivLeft.appendChild(taskIcon);
+    divSquare.appendChild(taskIcon);
 
+    const divCheck = document.createElement('div');
+    divCheck.id = `div-check-${task.index}`;
+    if (task.completed) {
+      divCheck.className = 'visible';
+    } else {
+      divCheck.className = 'hidden';
+    }
+    divCheck.onclick = () => {
+      divCheck.className = 'hidden';
+      document.querySelector(`#div-square-${task.index}`).className = 'visible';
+      document.querySelector(`#li-input-text-${task.index}`).classList.replace('text-completed', 'text-uncompleted');
+      this.taskList[task.index].completed = false;
+      this.updateBadge('+');
+      this.setLocalStorage();
+    };
+
+    taskDivLeft.appendChild(divCheck);
     taskIcon = document.createElement('i');
     taskIcon.id = `check-${task.index}`;
     taskIcon.className = 'fa-solid fa-check green-icon';
-
-    if (task.completed) {
-      taskIcon.classList.add('visible');
-    } else {
-      taskIcon.classList.add('hidden');
-    }
-    taskDivLeft.appendChild(taskIcon);
+    divCheck.appendChild(taskIcon);
 
     const taskDesc = document.createElement('input');
     taskDesc.type = 'text';
@@ -59,7 +83,7 @@ class ToDoList {
     if (task.completed) {
       taskDesc.classList.add('text-completed');
     } else {
-      taskIcon.classList.add('text-uncompleted');
+      taskDesc.classList.add('text-uncompleted');
     }
     taskDesc.id = `li-input-text-${task.index}`;
     taskDesc.value = task.description;
@@ -95,7 +119,7 @@ class ToDoList {
 
   editTask = (index, value) => {
     this.taskList[index].description = value;
-    localStorage.setItem('ToDoList', JSON.stringify(this.taskList));
+    this.setLocalStorage();
   }
 
   addNewTask = (parentDiv, task) => {
@@ -103,7 +127,20 @@ class ToDoList {
     this.index += 1;
     this.taskList.push(task);
     this.renderTask(parentDiv, task);
-    localStorage.setItem('ToDoList', JSON.stringify(this.taskList));
+    this.setLocalStorage();
+    this.updateBadge('+');
+  }
+
+  updateBadge = (action) => {
+    const badgeCount = document.querySelector('#red-badge').textContent;
+
+    if (action === '+') {
+      document.querySelector('#red-badge').textContent = parseInt(badgeCount, 10) + 1;
+    } else if (action === '-') {
+      document.querySelector('#red-badge').textContent = parseInt(badgeCount, 10) - 1;
+    } else {
+      document.querySelector('#red-badge').textContent = action;
+    }
   }
 
   setNoeditBackground = () => {
@@ -124,16 +161,25 @@ class ToDoList {
   }
 
   removeTask = (listId) => {
-    this.taskList = this.taskList.filter(
-      (task) => task.index.toString() !== listId.toString(),
-    );
+    if (listId === 'COMPLETED') {
+      this.taskList = this.taskList.filter((task) => task.completed === false);
+    } else {
+      this.taskList = this.taskList.filter(
+        (task) => task.index.toString() !== listId.toString(),
+      );
+    }
+
     this.resetIndexes();
-    localStorage.setItem('ToDoList', JSON.stringify(this.taskList));
+    this.setLocalStorage();
     const lis = document.querySelectorAll('.single-task');
     lis.forEach((element) => {
       document.querySelector(`#${element.id}`).remove();
     });
     this.renderTaskList(document.querySelector('#list-title-left'), document.querySelector('#to-do-list'));
+  }
+
+  setLocalStorage = () => {
+    localStorage.setItem('ToDoList', JSON.stringify(this.taskList));
   }
 }
 
