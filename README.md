@@ -6,9 +6,15 @@ HTML + JS + CSS project to implement an storage for a ToDo List.
 
 The project is designed to implement SPA concept, with just 1 HTML page and sections visible or hidden depending on the functionality selected.
 
-The functionality available is the Landing Page presenting the task stored hardcoded into a JS module. (for 1st. deliverable).
+The functionalities are:
 
-In this 1st. deliverable, you can create new tasks and edit the existents.
+- The Landing Page presenting the tasks stored in localStore.
+- Add a new task.
+- Modify a task.
+- Know the total active task in the red badge on top right of the app.
+- Remove one task.
+- Mark some tasks as active or completed.
+- Remove all the completed tasks.
 
 ## Built With
 
@@ -37,11 +43,15 @@ Not available yet.
 
 ### Usage
 
-Once on the landing page, you will see the harcoded data displayed into the list.
+Once on the landing page, you will see the saved data displayed into the list and a badge with the total uncompleted tasks.
 
 You can create new elements clicking into the "Add to your list..." field.
 
-Also you can modify elements clicking directly into them.
+Also you can modify elements clicking directly into them. And remove it using the trash can icon visible when you click the task to edit.
+
+Mark and unmark a task with the checkbox in each one.
+
+remove all of the completed task, using the Clear all link at bottom of the app.
 
 ### Deployment
 

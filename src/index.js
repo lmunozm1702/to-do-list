@@ -23,3 +23,8 @@ newItemInput.addEventListener('change', () => {
 newItemInput.addEventListener('click', () => {
   myList.setNoeditBackground();
 });
+
+const clearAll = document.querySelector('#clear-all');
+clearAll.addEventListener('click', () => {
+  myList.removeTask('COMPLETED');
+});
