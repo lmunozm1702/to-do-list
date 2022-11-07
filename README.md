@@ -27,7 +27,7 @@ The functionalities are:
 
 ## Live Demo
 
-Not available yet.
+https://lmunozm1702.github.io/to-do-list/dist/
 
 ## Getting Started
 

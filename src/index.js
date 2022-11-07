@@ -10,9 +10,11 @@ const storedTasks = JSON.parse(localStorage.getItem('ToDoList')) || [];
 const storedName = JSON.parse(localStorage.getItem('listName')) || 'Demo';
 const storedIndex = storedTasks.length;
 const myList = new ToDoList(storedTasks, storedIndex, storedName);
+const newItemInput = document.querySelector('#new-item-input');
+const clearAll = document.querySelector('#clear-all');
+
 myList.renderTaskList(document.querySelector('#list-title-left'), document.querySelector('#to-do-list'));
 
-const newItemInput = document.querySelector('#new-item-input');
 newItemInput.addEventListener('change', () => {
   const newTask = new ToDoItem(newItemInput.value, false, myList.index);
 
@@ -24,7 +26,6 @@ newItemInput.addEventListener('click', () => {
   myList.setNoeditBackground();
 });
 
-const clearAll = document.querySelector('#clear-all');
 clearAll.addEventListener('click', () => {
   myList.removeTask('COMPLETED');
 });
