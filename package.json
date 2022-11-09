@@ -9,7 +9,7 @@
     "build": "webpack",
     "start": "webpack serve --open"
   },
-  "jest":{
+  "jest": {
     "testEnvironment": "jsdom"
   },
   "keywords": [],

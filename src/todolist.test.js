@@ -8,14 +8,29 @@ const myList = new ToDoList(storedTasks, storedIndex, storedName);
 
 const newTask = new ToDoItem('value 1', false, myList.index);
 
-
-test('add to array', () => {
+describe('add function', () => {
   document.body.innerHTML = '<div><ul id="to-do-list"></ul></div>';
-  const parentDiv = document.querySelector('#to-do-list');
+  document.body.innerHTML += '<span id="red-badge" class="badge2"></span>';
 
-  myList.addNewTask(parentDiv, newTask);
-  expect(myList.index).toBe(1);
+  test('add to array', () => {
+    const parentDiv = document.querySelector('#to-do-list');
 
-  const parentDivCount = document.querySelectorAll('#to-do-list');
-  expect(parentDivCount).toHaveLength(1);
+    myList.addNewTask(parentDiv, newTask);
+    expect(myList.index).toBe(1);
+  })
+
+  test('test dom', () => {
+    const parentDivCount = document.querySelectorAll('#to-do-list');
+    expect(parentDivCount).toHaveLength(1);
+  })
+
+  test('test local storage', () => {
+    const storedTasks = JSON.parse(localStorage.getItem('ToDoList')) || [];
+    expect(storedTasks).toHaveLength(1);
+  })
+
+  test('update badge', () => {
+    const redbadge = document.querySelector('#red-badge').textContent;
+    expect(parseInt(redbadge.textContent, 10)).toMatch(1);
+  })
 });
