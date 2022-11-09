@@ -47,3 +47,6 @@ echo "import '@fortawesome/fontawesome-free/js/fontawesome'"
 echo "import '@fortawesome/fontawesome-free/js/solid'"
 echo "import '@fortawesome/fontawesome-free/js/regular'"
 echo "import '@fortawesome/fontawesome-free/js/brands'"
+
+
+//this.renderTask(parentDiv, task);
