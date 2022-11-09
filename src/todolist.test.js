@@ -29,11 +29,6 @@ describe('add and remove function test', () => {
     expect(storedTasks).toHaveLength(1);
   })
 
-  test('update badge', () => {
-    const redbadge = document.querySelector('#red-badge').textContent;
-    // expect(parseInt(redbadge.textContent, 10)).toMatch(1);
-  })
-
   test('remove item', () => {
     document.body.innerHTML = "<div id='list-title-left'></div>"
     document.body.innerHTML += "<div id='to-do-list'></div>"
