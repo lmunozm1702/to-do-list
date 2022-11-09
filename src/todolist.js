@@ -127,8 +127,8 @@ class ToDoList {
     this.index += 1;
     this.taskList.push(task);
     this.renderTask(parentDiv, task);
-    this.setLocalStorage();
-    this.updateBadge('+');
+    // this.setLocalStorage();
+    // this.updateBadge('+');
   }
 
   updateBadge = (action) => {
