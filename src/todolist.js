@@ -16,6 +16,15 @@ class ToDoList {
     this.updateBadge(badgeCount);
   }
 
+  setCompleted = (divSquare, index) => {
+    divSquare.className = 'hidden';
+    document.querySelector(`#div-check-${index}`).className = 'visible';
+    document.querySelector(`#li-input-text-${index}`).classList.replace('text-uncompleted', 'text-completed');
+    this.taskList[index].completed = true;
+    this.updateBadge('-');
+    this.setLocalStorage();
+  }
+
   renderTask = (parentDiv, task) => {
     const taskToAdd = document.createElement('li');
     taskToAdd.className = 'single-task no-edition';
@@ -41,12 +50,7 @@ class ToDoList {
       divSquare.className = 'visible';
     }
     divSquare.onclick = () => {
-      divSquare.className = 'hidden';
-      document.querySelector(`#div-check-${task.index}`).className = 'visible';
-      document.querySelector(`#li-input-text-${task.index}`).classList.replace('text-uncompleted', 'text-completed');
-      this.taskList[task.index].completed = true;
-      this.updateBadge('-');
-      this.setLocalStorage();
+      this.setCompleted(divSquare, task.index);
     };
     taskDivLeft.appendChild(divSquare);
 
