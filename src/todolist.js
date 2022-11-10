@@ -132,8 +132,8 @@ class ToDoList {
   }
 
   updateBadge = (action) => {
-    const badgeCount = document.querySelector('#red-badge').textContent;
-
+    let badgeCount = document.querySelector('#red-badge').textContent;
+    if (badgeCount === '') { badgeCount = 0; }
     if (action === '+') {
       document.querySelector('#red-badge').textContent = parseInt(badgeCount, 10) + 1;
     } else if (action === '-') {

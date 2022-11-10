@@ -29,6 +29,21 @@ describe('add and remove function test', () => {
     expect(storedTasks).toHaveLength(1);
   });
 
+  test('update badge', () => {
+    const redbadge = document.querySelector('#red-badge');
+    expect(redbadge.textContent).toMatch('1');
+  });
+
+  test('edit value array', () => {
+    myList.editTask(0, 'new value');
+    expect(myList.taskList[0].description).toMatch('new value');
+  });
+
+  test('edit localStorage', () => {
+    const storedTasks = JSON.parse(localStorage.getItem('ToDoList')) || [];
+    expect(storedTasks[0].description).toMatch('new value');
+  });
+
   test('remove item', () => {
     document.body.innerHTML = "<div id='list-title-left'></div>";
     document.body.innerHTML += "<div id='to-do-list'></div>";
