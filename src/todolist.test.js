@@ -14,7 +14,6 @@ describe('add and remove function test', () => {
 
   test('add to array', () => {
     const parentDiv = document.querySelector('#to-do-list');
-
     myList.addNewTask(parentDiv, newTask);
     expect(myList.index).toBe(1);
   });
@@ -64,10 +63,21 @@ describe('add and remove function test', () => {
     expect(redbadge.textContent).toMatch('-1');
   });
 
+  test('clear all tasks test', () => {
+    myList.removeTask('COMPLETED');
+    expect(myList.index).toBe(0);
+  });
+
+  test('clear all local storage test', () => {
+    expect(storedTasks).toHaveLength(0);
+  });
+
   test('remove item', () => {
     document.body.innerHTML = "<div id='list-title-left'></div>";
     document.body.innerHTML += "<div id='to-do-list'></div>";
     document.body.innerHTML += '<span id="red-badge" class="badge2"></span>';
+    const parentDiv = document.querySelector('#to-do-list');
+    myList.addNewTask(parentDiv, newTask);
     myList.removeTask(0);
     expect(myList.index).toBe(0);
   });
