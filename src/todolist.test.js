@@ -44,6 +44,26 @@ describe('add and remove function test', () => {
     expect(storedTasks[0].description).toMatch('new value');
   });
 
+  test('completed task', () => {
+    document.body.innerHTML = "<div id='div-square-0'></div>";
+    document.body.innerHTML += "<div id='div-check-0'></div>";
+    document.body.innerHTML += "<div id='li-input-text-0'></div>";
+    document.body.innerHTML += '<span id="red-badge" class="badge2"></span>';
+    const div = document.querySelector('#div-square-0');
+    myList.setCompleted(div, 0);
+    expect(myList.taskList[0].completed).toBe(true);
+  })
+
+  test('completed local storage', () => {
+    const storedTasks = JSON.parse(localStorage.getItem('ToDoList')) || [];
+    expect(storedTasks[0].completed).toBe(true);
+  });
+
+  test('update completed badge ', () => {
+    const redbadge = document.querySelector('#red-badge');
+    expect(redbadge.textContent).toMatch('-1');
+  });
+
   test('remove item', () => {
     document.body.innerHTML = "<div id='list-title-left'></div>";
     document.body.innerHTML += "<div id='to-do-list'></div>";
