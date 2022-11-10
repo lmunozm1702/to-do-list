@@ -64,12 +64,20 @@ describe('add and remove function test', () => {
   });
 
   test('clear all tasks test', () => {
+    document.body.innerHTML = "<div id='list-title-left'></div>";
+    document.body.innerHTML += '<span id="red-badge" class="badge2"></span>';
     myList.removeTask('COMPLETED');
     expect(myList.index).toBe(0);
   });
 
   test('clear all local storage test', () => {
+    const storedTasks = JSON.parse(localStorage.getItem('ToDoList')) || [];
     expect(storedTasks).toHaveLength(0);
+  });
+
+  test('test dom for clear all', () => {
+    const parentDivCount = document.querySelectorAll('#to-do-list li');
+    expect(parentDivCount).toHaveLength(0);
   });
 
   test('remove item', () => {
