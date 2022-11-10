@@ -51,7 +51,7 @@ describe('add and remove function test', () => {
     const div = document.querySelector('#div-square-0');
     myList.setCompleted(div, 0);
     expect(myList.taskList[0].completed).toBe(true);
-  })
+  });
 
   test('completed local storage', () => {
     const storedTasks = JSON.parse(localStorage.getItem('ToDoList')) || [];
